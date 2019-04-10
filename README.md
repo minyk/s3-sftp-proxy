@@ -88,20 +88,13 @@ lister_lookback_buffer_size = 100
 
 ```toml
 [buckets.test]
-bucket = "BUCKET"
-key_prefix = "PREFIX"
 bucket_url = "s3://BUCKET/PREFIX"
-profile = "profile"
-region = "ap-northeast-1"
-max_object_size = 65536
-writable = false
-readable = true
-listable = true
+region = "us"
+host_base = "http://ceph.test:7480"
+path_style = true
+disable_ssl = true
 auth = "test"
-server_side_encryption = "kms"
-sse_customer_key = ""
-sse_kms_key_id = ""
-keyboard_interactive_auth = false
+
 
 [buckets.test.credentials]
 aws_access_key_id = "aaa"
@@ -121,6 +114,18 @@ aws_secret_access_key = "bbb"
 * `bucket_url` (required when `bucket` is unspecified)
 
 	Specifies both the bucket name and prefix in the URL form.  The URL's scheme must be `s3`, and the host part corresponds to `bucket` while the path part does to `key_prefix`.  You may not specify `bucket_url` and either `bucket` or `key_prefix` at the same time.
+
+* `host_base` (optional, default is AWS endpoint)
+
+    Endpoint of S3 API, like: `http://ceph.test:7480`
+
+* `path_style` (optional, default is false)
+
+    Path style access for buckets.
+    
+* `disable_ssl` (optional, default is false)
+
+    Disable TLS if true.
 
 * `profile` (optional, defaults to the value of `AWS_PROFILE` unless `credentials` is specified)
 

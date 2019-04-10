@@ -118,6 +118,16 @@ func buildS3Bucket(uStores UserStores, name string, bCfg *S3BucketConfig) (*S3Bu
 	} else {
 		// credentials are retrieved through EC2 metadata on runtime
 	}
+	if bCfg.HostBase != nil {
+		hostBase := bCfg.HostBase.String()
+		awsCfg.Endpoint = &hostBase
+	}
+	if *(bCfg.PathStyle) {
+		awsCfg.WithS3ForcePathStyle(true)
+	}
+	if *(bCfg.DisableSSL) {
+		awsCfg.WithDisableSSL(true)
+	}
 	if bCfg.Region != "" {
 		awsCfg = awsCfg.WithRegion(bCfg.Region)
 	}

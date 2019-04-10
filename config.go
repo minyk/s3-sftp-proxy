@@ -13,6 +13,7 @@ var (
 	minReaderMinChunkSize       = 262144
 	minListerLookbackBufferSize = 100
 	vTrue                       = true
+	vFalse                      = false
 )
 
 type URL struct {
@@ -36,6 +37,9 @@ type S3BucketConfig struct {
 	Bucket                         string                   `toml:"bucket"`
 	KeyPrefix                      string                   `toml:"key_prefix"`
 	BucketUrl                      *URL                     `toml:"bucket_url"`
+	HostBase                       *URL                     `toml:"host_base"`
+	PathStyle                      *bool                    `toml:"path_style"`
+	DisableSSL                     *bool                    `toml:"disable_ssl"`
 	Auth                           string                   `toml:"auth"`
 	MaxObjectSize                  *int64                   `toml:"max_object_size"`
 	Readable                       *bool                    `toml:"readble"`
@@ -107,6 +111,12 @@ func validateAndFixupBucketConfig(bCfg *S3BucketConfig) error {
 	}
 	if bCfg.Listable == nil {
 		bCfg.Listable = &vTrue
+	}
+	if bCfg.PathStyle == nil {
+		bCfg.PathStyle = &vFalse
+	}
+	if bCfg.DisableSSL == nil {
+		bCfg.DisableSSL = &vFalse
 	}
 	return nil
 }
